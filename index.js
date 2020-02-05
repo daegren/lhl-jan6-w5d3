@@ -64,6 +64,37 @@ app.get('/projects/:id', (req, res) => {
     });
 });
 
+app.get('/projects/:id/edit', (req, res) => {
+  const { id } = req.params;
+
+  Project.find(id)
+    .then(project => {
+      res.render('projects/edit', { project });
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+app.post('/projects/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  if (!name) {
+    res.status(422).send("Name can't be blank");
+    return;
+  }
+
+  Project.update(id, name)
+    .then(() => {
+      res.redirect(`/projects/${id}`);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+
+});
+
 app.listen(8080, () => {
   console.log('App is listening on http://localhost:8080');
 });

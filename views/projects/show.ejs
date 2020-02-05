@@ -10,7 +10,13 @@
 
 <body>
   <h1><%= project.name %></h1>
-  <a href="/projects">Back to all Projects</a>
+  <div>
+    <a href="/projects">Back to all Projects</a>
+  </div>
+
+  <div>
+    <a href="/projects/<%= project.id %>/edit">Edit Project</a>
+  </div>
 
   <ul>
     <% tasks.forEach(task => { %>

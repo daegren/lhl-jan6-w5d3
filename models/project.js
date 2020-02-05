@@ -34,5 +34,17 @@ module.exports = (db) => {
     });
   };
 
-  return { all, find, create };
+  const update = (id, name) => {
+    return new Promise((resolve, reject) => {
+      db.query('UPDATE projects SET name = $1 WHERE id = $2', [name, id])
+        .then(() => {
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  };
+
+  return { all, find, create, update };
 };
