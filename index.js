@@ -1,7 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+
+// DATABASE SETUP
 const db = require('./db');
+
+// MODELS
 const Project = require('./models/project')(db);
 const Task = require('./models/task')(db);
 
@@ -10,10 +14,12 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// GET /
 app.get('/', (req, res) => {
   res.redirect('/projects');
 });
 
+// GET /projects - List all projects
 app.get('/projects', (req, res) => {
   Project.all()
     .then(projects => {
@@ -24,6 +30,7 @@ app.get('/projects', (req, res) => {
     });
 });
 
+// POST /projects - Create Project
 app.post('/projects', (req, res) => {
   const { name } = req.body;
 
@@ -41,10 +48,12 @@ app.post('/projects', (req, res) => {
     });
 });
 
+// GET /projects/new - Show new form
 app.get('/projects/new', (req, res) => {
   res.render('projects/new');
 });
 
+// GET /projects/:id - Show individual project w/ Tasks
 app.get('/projects/:id', (req, res) => {
   const { id } = req.params;
   Project.find(id)
@@ -64,6 +73,7 @@ app.get('/projects/:id', (req, res) => {
     });
 });
 
+// GET /projects/:id/edit - Show edit form
 app.get('/projects/:id/edit', (req, res) => {
   const { id } = req.params;
 
@@ -76,6 +86,7 @@ app.get('/projects/:id/edit', (req, res) => {
     });
 });
 
+// POST /projects/:id - Update project
 app.post('/projects/:id', (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
@@ -94,6 +105,7 @@ app.post('/projects/:id', (req, res) => {
     });
 });
 
+// POST /projects/:id/delete - Delete project
 app.post('/projects/:id/delete', (req, res) => {
   const { id } = req.params;
 
@@ -106,6 +118,8 @@ app.post('/projects/:id/delete', (req, res) => {
     });
 });
 
+
+// Boot server
 app.listen(8080, () => {
   console.log('App is listening on http://localhost:8080');
 });
