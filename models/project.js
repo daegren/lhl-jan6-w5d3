@@ -46,5 +46,17 @@ module.exports = (db) => {
     });
   };
 
-  return { all, find, create, update };
+  const remove = (id) => {
+    return new Promise((resolve, reject) => {
+      db.query('DELETE FROM projects WHERE id = $1;', [id])
+        .then(() => {
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  };
+
+  return { all, find, create, update, remove };
 };

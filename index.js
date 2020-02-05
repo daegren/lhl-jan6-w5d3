@@ -92,7 +92,18 @@ app.post('/projects/:id', (req, res) => {
     .catch(err => {
       res.status(500).send(err);
     });
+});
 
+app.post('/projects/:id/delete', (req, res) => {
+  const { id } = req.params;
+
+  Project.remove(id)
+    .then(() => {
+      res.redirect('/projects');
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
 });
 
 app.listen(8080, () => {

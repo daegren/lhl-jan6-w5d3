@@ -18,6 +18,12 @@
     <a href="/projects/<%= project.id %>/edit">Edit Project</a>
   </div>
 
+  <div>
+    <form action="/projects/<%= project.id %>/delete" method="POST">
+      <input type="submit" value="Delete Project">
+    </form>
+  </div>
+
   <ul>
     <% tasks.forEach(task => { %>
     <li>
