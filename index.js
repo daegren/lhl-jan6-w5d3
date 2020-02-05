@@ -8,6 +8,7 @@ const Task = require('./models/task')(db);
 const app = express();
 
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
   res.redirect('/projects');
@@ -21,6 +22,27 @@ app.get('/projects', (req, res) => {
     .catch(err => {
       res.status(500).send(err);
     });
+});
+
+app.post('/projects', (req, res) => {
+  const { name } = req.body;
+
+  if (!name) {
+    res.status(422).send("Name can't be blank");
+    return;
+  }
+
+  Project.create(name)
+    .then(project => {
+      res.redirect(`/projects/${project.id}`);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+app.get('/projects/new', (req, res) => {
+  res.render('projects/new');
 });
 
 app.get('/projects/:id', (req, res) => {

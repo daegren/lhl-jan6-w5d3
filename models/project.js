@@ -24,5 +24,15 @@ module.exports = (db) => {
     });
   };
 
-  return { all, find };
+  const create = (name) => {
+    return new Promise((resolve, reject) => {
+      db.query('INSERT INTO projects (name) VALUES ($1) RETURNING *;', [name])
+        .then(res => {
+          resolve(res.rows[0]);
+        })
+        .catch(err => reject(err));
+    });
+  };
+
+  return { all, find, create };
 };
