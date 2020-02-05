@@ -22,6 +22,18 @@ app.get('/projects', (req, res) => {
     });
 });
 
+app.get('/projects/:id', (req, res) => {
+  const { id } = req.params;
+  Project.find(id)
+    .then(project => {
+      res.render('projects/show', { project });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(404).send(`Project with id ${id} not found.`);
+    });
+});
+
 app.listen(8080, () => {
   console.log('App is listening on http://localhost:8080');
 });

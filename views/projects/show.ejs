@@ -9,17 +9,8 @@
 </head>
 
 <body>
-  <h1>Projects</h1>
-
-  <ul>
-    <% projects.forEach(project => { %>
-    <li>
-      <a href="/projects/<%= project.id %>">
-        <%= project.name %>
-      </a>
-    </li>
-    <% }) %>
-  </ul>
+  <h1><%= project.name %></h1>
+  <a href="/projects">Back to all Projects</a>
 </body>
 
 </html>
