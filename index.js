@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const db = require('./db');
 const Project = require('./models/project')(db);
+const Task = require('./models/task')(db);
 
 const app = express();
 
@@ -26,7 +27,14 @@ app.get('/projects/:id', (req, res) => {
   const { id } = req.params;
   Project.find(id)
     .then(project => {
-      res.render('projects/show', { project });
+      Task.forProjectId(id)
+        .then(tasks => {
+          res.render('projects/show', { project, tasks });
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).send(err);
+        });
     })
     .catch(err => {
       console.log(err);

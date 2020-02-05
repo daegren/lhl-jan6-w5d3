@@ -11,6 +11,16 @@
 <body>
   <h1><%= project.name %></h1>
   <a href="/projects">Back to all Projects</a>
+
+  <ul>
+    <% tasks.forEach(task => { %>
+    <li>
+      <input type="checkbox" <%= task.completed ? "checked" : "" %> readonly />
+      <%= task.title %>
+    </li>
+
+    <% }) %>
+  </ul>
 </body>
 
 </html>
